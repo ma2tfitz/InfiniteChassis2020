@@ -17,8 +17,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.BooleanCommand;
 import frc.robot.commands.LimelightAutoTrack;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -28,16 +30,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  public static DifferentialDrive m_drive;
   public static XboxController driverXbox = new XboxController(1);
   public static Limelight m_limelight = new Limelight();
-  public static RobotContainer m_robotContainer = new RobotContainer();
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   //public final Limelight m_exampleSubsystem = new Limelight();
 
-  public CANSparkMax frontLeftMotor = new CANSparkMax(1, MotorType.kBrushless);
-  public CANSparkMax frontRightMotor = new CANSparkMax(2, MotorType.kBrushless);
-  public CANSparkMax backLeftMotor = new CANSparkMax(3, MotorType.kBrushless);
-  public CANSparkMax backRightMotor = new CANSparkMax(4, MotorType.kBrushless);
+
 
 // The robot's subsystems and commands are defined here...
 
@@ -63,10 +61,12 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
     configureButtonBindings();
 
-    m_drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+    m_robotDrive.setDefaultCommand(
+      new RunCommand(() -> m_robotDrive
+        .tankDrive(driverXBox.getRawAxis(1), driverXBox.getRawAxis(5)),
+          m_robotDrive));
   }
 
   /**

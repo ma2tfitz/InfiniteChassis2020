@@ -34,7 +34,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Robot extends TimedRobot {
 
 
-  private RobotContainer m_robotContainer = new RobotContainer();
+  public RobotContainer m_robotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    m_robotContainer = new RobotContainer();
   }
 
   /**
@@ -117,8 +118,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     final double leftSpeed = -RobotContainer.driverXbox.getRawAxis(1);
     final double rightSpeed = RobotContainer.driverXbox.getRawAxis(5);
-
-    RobotContainer.m_drive.tankDrive(leftSpeed * Constants.k, rightSpeed * Constants.k);
   }
 
   @Override

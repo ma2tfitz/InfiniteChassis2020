@@ -48,13 +48,11 @@ public class LimelightAutoTrack extends CommandBase {
     }
     SmartDashboard.putNumber("Left Speed", leftSpeed);    
     SmartDashboard.putNumber("Right Speed", rightSpeed);    
-    RobotContainer.m_drive.tankDrive(leftSpeed,rightSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_drive.tankDrive(0.0, 0.0);
   }
 
   // Returns true when the command should end.
