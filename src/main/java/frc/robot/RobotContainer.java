@@ -10,34 +10,27 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.robot.commands.BooleanCommand;
-import frc.robot.commands.LimelightAutoTrack;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.Limelight;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.DriveDistanceCommand;
+import frc.robot.commands.TurnInplaceCommand;
+import frc.robot.commands.SequentialDriveExampleCommand;
+import frc.robot.commands.LimelightAutoTrackCommand;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
-/**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
-  public static XboxController driverXbox = new XboxController(1);
-  public static Limelight m_limelight = new Limelight();
+  public static XboxController driverXBox = new XboxController(1);
+  public static XboxController manipulatorXBox = new XboxController(2);
+  // ^ FIX: Check to make sure manipulatorXBox is on the right port
+
+  public static LimelightSubsystem m_limelight = new LimelightSubsystem();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  //public final Limelight m_exampleSubsystem = new Limelight();
-
-
-
-// The robot's subsystems and commands are defined here...
 
   private static final int A_BUTTON_XBOX = 1;
   private static final int B_BUTTON_XBOX = 2;
@@ -50,16 +43,6 @@ public class RobotContainer {
   private static final int JOYSTICK_RIGHT_CLICK = 10;
   private static final int JOYSTICK_LEFT_CLICK = 9;
 
-  private final XboxController driverXBox = new XboxController(1);
-  private final XboxController controllerXBox = new XboxController(2);
-
-  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-
-
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     configureButtonBindings();
 
@@ -67,31 +50,28 @@ public class RobotContainer {
       new RunCommand(() -> m_robotDrive
         .tankDrive(driverXBox.getRawAxis(1), driverXBox.getRawAxis(5)),
           m_robotDrive));
+    // ^ Setting the Default Command to m_robotDrive, meaning it will drive as long as nothing else is scheduled
   }
 
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
-    JoystickButton limelightButton = new JoystickButton(driverXBox, X_BUTTON_XBOX);
-    limelightButton.whileHeld(new LimelightAutoTrack());
+    JoystickButton limelightButton = new JoystickButton(driverXBox, B_BUTTON_XBOX);
+    limelightButton.whileHeld(new LimelightAutoTrackCommand());
 
-    JoystickButton toggleButton = new JoystickButton(driverXBox, A_BUTTON_XBOX);
-    toggleButton.toggleWhenPressed(new BooleanCommand());
+    JoystickButton driveDistanceCommandButton = new JoystickButton(driverXBox, X_BUTTON_XBOX);
+    driveDistanceCommandButton.whenPressed(new DriveDistanceCommand(10, 0.2, m_robotDrive));
+
+    JoystickButton turnInplaceCommandButton = new JoystickButton(driverXBox, Y_BUTTON_XBOX);
+    turnInplaceCommandButton.whenPressed(new TurnInplaceCommand(10, 0.2, m_robotDrive));
+
+    JoystickButton sequentialDriveCommandButton = new JoystickButton(driverXBox, A_BUTTON_XBOX);
+    sequentialDriveCommandButton.whenPressed(new SequentialDriveExampleCommand(m_robotDrive));
   }
 
+  /*
+   public Command getAutonomousCommand() {
+     // An ExampleCommand will run in autonomous
+     return m_autoCommand;
+  }
+  */
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-
-  // public Command getAutonomousCommand() {
-  //   // An ExampleCommand will run in autonomous
-  //   return m_autoCommand;
-  // }
 }
