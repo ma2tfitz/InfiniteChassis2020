@@ -53,7 +53,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     JoystickButton limelightButton = new JoystickButton(driverXBox, B_BUTTON_XBOX);
-    limelightButton.whileHeld(new LimelightAutoTrackCommand());
+    limelightButton.whenPressed(new LimelightAutoTrackCommand(m_limelight, m_robotDrive));
 
     JoystickButton driveDistanceCommandButton = new JoystickButton(driverXBox, X_BUTTON_XBOX);
     driveDistanceCommandButton.whenPressed(new DriveDistanceCommand(60, 1, m_robotDrive));

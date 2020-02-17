@@ -13,15 +13,23 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
 public class LimelightAutoTrackCommand extends CommandBase {
 
-  double leftSpeed = 0.0;
-  double rightSpeed = 0.0;
+  private static final double TARGET_AREA = 0.02;
+  private static final double MAX_HEADING_ABS_ERROR = 0.01;
+  private static final double MAX_AREA_ABS_ERROR = 0.001;
+  private DriveSubsystem m_robotDrive;
+  private LimelightSubsystem m_limelight;
 
-  public LimelightAutoTrackCommand() {
-  
+
+
+  public LimelightAutoTrackCommand(LimelightSubsystem limelight, DriveSubsystem robotDrive) {
+    m_limelight = limelight;
+    m_robotDrive = robotDrive;
+    addRequirements(m_limelight, m_robotDrive);
   }
 
   @Override
@@ -30,19 +38,21 @@ public class LimelightAutoTrackCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (!RobotContainer.m_limelight.hasTarget()){
+    double leftSpeed = 0.0;
+    double rightSpeed = 0.0;
+    if (!m_limelight.hasTarget()){
       leftSpeed = 0.0;
       rightSpeed = 0.0;
-    }
-    else{
-        System.out.print(RobotContainer.m_limelight.getX());
-        double speed = RobotContainer.m_limelight.getX() * Constants.K_TURN;
-        speed = MathUtil.clamp(speed, -1.0 * Constants.MAX_SPEED, Constants.MAX_SPEED);
+    } else {
+        System.out.print(m_limelight.getX());
+        double speed = m_limelight.getX() * Constants.K_TURN;
+        speed = MathUtil.clamp(speed, -Constants.MAX_SPEED, Constants.MAX_SPEED);
         leftSpeed = speed;
         rightSpeed = -speed;
     }
     SmartDashboard.putNumber("Left Speed", leftSpeed);    
-    SmartDashboard.putNumber("Right Speed", rightSpeed);    
+    SmartDashboard.putNumber("Right Speed", rightSpeed);
+    m_robotDrive.tankDrive(leftSpeed, rightSpeed);    
   }
 
   @Override
@@ -51,6 +61,6 @@ public class LimelightAutoTrackCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return !m_limelight.hasTarget() || Math.abs(m_limelight.getX()) <= MAX_HEADING_ABS_ERROR;
   }
 }

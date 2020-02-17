@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveDistanceCommand extends CommandBase {
-    private final DriveSubsystem m_driveSubsystem;
+    private final DriveSubsystem m_robotDrive;
     private final double m_distance;
     private final double m_speed;
 
@@ -19,22 +19,23 @@ public class DriveDistanceCommand extends CommandBase {
     public DriveDistanceCommand(double distance, double speed, DriveSubsystem drive) {
     	m_distance = Math.abs(distance); // must be _magnitude_ in meters
 	    m_speed = speed;
-	    m_driveSubsystem = drive;
+      m_robotDrive = drive;
+      addRequirements(m_robotDrive);
     }
 
     @Override
     public void initialize() {
-      m_driveSubsystem.resetEncoders();
-      m_driveSubsystem.tankDrive(m_speed, m_speed);
+      m_robotDrive.resetEncoders();
+      m_robotDrive.tankDrive(m_speed, m_speed);
     }
 
     @Override
     public void end(boolean interrupted) {
-      m_driveSubsystem.tankDrive(0.0, 0.0);
+      m_robotDrive.tankDrive(0.0, 0.0);
     }
 
     @Override
     public boolean isFinished() {
-      return Math.abs(m_driveSubsystem.getLeftEncoderDistance()) >= m_distance;
+      return Math.abs(m_robotDrive.getLeftEncoderDistance()) >= m_distance;
     }
 }

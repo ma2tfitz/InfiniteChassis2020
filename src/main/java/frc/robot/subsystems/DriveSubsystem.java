@@ -52,15 +52,17 @@ public class DriveSubsystem extends SubsystemBase {
     m_backRightEncoder.setPositionConversionFactor(1.77);
 
     m_drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+
+    m_drive.setMaxOutput(Constants.k);
   }
 
   public void arcadeDrive(double speed, double rotation) {
-    m_drive.arcadeDrive(speed * Constants.k, rotation);
+    m_drive.arcadeDrive(speed, rotation);
   }
     
   public void tankDrive(double leftSpeed, double rightSpeed){
     // May need invert left
-    m_drive.tankDrive(leftSpeed * Constants.k, rightSpeed * Constants.k);
+    m_drive.tankDrive(leftSpeed, rightSpeed);
   }
 
   @Override
