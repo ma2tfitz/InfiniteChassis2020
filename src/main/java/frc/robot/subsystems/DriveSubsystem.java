@@ -29,11 +29,18 @@ public class DriveSubsystem extends SubsystemBase {
   private CANEncoder m_backRightEncoder = new CANEncoder(backRightMotor);
 
   public DriveSubsystem() {
+
+    // FIX: These are true on chassis?
     frontLeftMotor.setInverted(false);
     frontRightMotor.setInverted(false);
     backLeftMotor.setInverted(false);
     backRightMotor.setInverted(false);
     // ^ FIX: Making sure none of the motors are inverted, change when we figure out WTH is up with the motors lol
+
+    frontLeftMotor.setSmartCurrentLimit(80);
+    frontRightMotor.setSmartCurrentLimit(80);
+    backLeftMotor.setSmartCurrentLimit(80);
+    backRightMotor.setSmartCurrentLimit(80);
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
@@ -70,6 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getMeanEncoderDistance() {
     // currently report leaders only
+    // FIX: Check that encoders are running in same direction
     return (getLeftEncoderDistance() + getRighttEncoderDistance()) / 2.0;
   }
 

@@ -47,9 +47,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_robotDrive.setDefaultCommand(
-      new RunCommand(() -> m_robotDrive
-        .tankDrive(driverXBox.getRawAxis(1), driverXBox.getRawAxis(5)),
-          m_robotDrive));
+      new RunCommand(() -> m_robotDrive.tankDrive(driverXBox.getRawAxis(1), driverXBox.getRawAxis(5)), m_robotDrive));
     // ^ Setting the Default Command to m_robotDrive, meaning it will drive as long as nothing else is scheduled
   }
 
@@ -58,10 +56,10 @@ public class RobotContainer {
     limelightButton.whileHeld(new LimelightAutoTrackCommand());
 
     JoystickButton driveDistanceCommandButton = new JoystickButton(driverXBox, X_BUTTON_XBOX);
-    driveDistanceCommandButton.whenPressed(new DriveDistanceCommand(10, 0.2, m_robotDrive));
+    driveDistanceCommandButton.whenPressed(new DriveDistanceCommand(60, 1, m_robotDrive));
 
     JoystickButton turnInplaceCommandButton = new JoystickButton(driverXBox, Y_BUTTON_XBOX);
-    turnInplaceCommandButton.whenPressed(new TurnInplaceCommand(10, 0.2, m_robotDrive));
+    turnInplaceCommandButton.whenPressed(new TurnInplaceCommand(10, 1, m_robotDrive));
 
     JoystickButton sequentialDriveCommandButton = new JoystickButton(driverXBox, A_BUTTON_XBOX);
     sequentialDriveCommandButton.whenPressed(new SequentialDriveExampleCommand(m_robotDrive));
