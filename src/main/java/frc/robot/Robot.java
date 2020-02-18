@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.RobotContainer;
 import frc.robot.Robot;
@@ -27,11 +28,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Robot extends TimedRobot {
 
   public RobotContainer m_robotContainer;
+  public DriveSubsystem m_robotDrive;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    // ^ Where we make our RobotContainer
+    // ^ Where we make our RobotContainer/DriveSubsystem
   }
 
   @Override
@@ -56,6 +58,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+
     /*
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -74,6 +77,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+
     /*
      if (m_autonomousCommand != null) {
        m_autonomousCommand.cancel();

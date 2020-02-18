@@ -25,17 +25,19 @@ public class DriveDistanceCommand extends CommandBase {
 
     @Override
     public void initialize() {
-      m_robotDrive.resetEncoders();
       m_robotDrive.tankDrive(m_speed, m_speed);
+      m_robotDrive.resetEncoders();
     }
 
     @Override
     public void end(boolean interrupted) {
       m_robotDrive.tankDrive(0.0, 0.0);
+      m_robotDrive.resetEncoders();
     }
 
     @Override
     public boolean isFinished() {
+      //System.out.println("Drive Distance Command: isFinished");
       return Math.abs(m_robotDrive.getLeftEncoderDistance()) >= m_distance;
     }
 }

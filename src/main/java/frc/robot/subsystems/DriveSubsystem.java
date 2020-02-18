@@ -11,6 +11,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,9 +32,9 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
 
     // FIX: These are true on chassis?
-    frontLeftMotor.setInverted(false);
+    frontLeftMotor.setInverted(true);
     frontRightMotor.setInverted(false);
-    backLeftMotor.setInverted(false);
+    backLeftMotor.setInverted(true);
     backRightMotor.setInverted(false);
     // ^ FIX: Making sure none of the motors are inverted, change when we figure out WTH is up with the motors lol
 
@@ -41,6 +42,8 @@ public class DriveSubsystem extends SubsystemBase {
     frontRightMotor.setSmartCurrentLimit(80);
     backLeftMotor.setSmartCurrentLimit(80);
     backRightMotor.setSmartCurrentLimit(80);
+
+    this.resetEncoders();
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
@@ -54,6 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
 
     m_drive.setMaxOutput(Constants.k);
+    m_drive.setRightSideInverted(false);
   }
 
   public void arcadeDrive(double speed, double rotation) {
@@ -61,8 +65,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
     
   public void tankDrive(double leftSpeed, double rightSpeed){
-    // May need invert left
+    // May need invert speed
     m_drive.tankDrive(leftSpeed, rightSpeed);
+    SmartDashboard.putNumber("Distance", getLeftEncoderDistance());
+
   }
 
   @Override
@@ -75,6 +81,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRightEncoder.setPosition(0.0);
     m_backLeftEncoder.setPosition(0.0);
     m_backRightEncoder.setPosition(0.0);
+
+    m_frontLeftEncoder.getPosition();
+    m_frontRightEncoder.getPosition();
+    m_backLeftEncoder.getPosition();
+    m_backRightEncoder.getPosition();
   }
 
   public double getMeanEncoderDistance() {
