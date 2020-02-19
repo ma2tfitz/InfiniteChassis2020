@@ -47,6 +47,8 @@ public class RobotContainer {
   public RobotContainer() {
     configureButtonBindings();
 
+    m_limelight.setOffLed();
+
     m_robotDrive.setDefaultCommand(
       new RunCommand(() -> m_robotDrive.tankDrive(-driverXBox.getRawAxis(1), -driverXBox.getRawAxis(5)), m_robotDrive));
     // ^ Setting the Default Command to m_robotDrive, meaning it will drive as long as nothing else is scheduled

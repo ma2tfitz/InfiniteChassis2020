@@ -25,8 +25,9 @@ public class DriveDistanceCommand extends CommandBase {
 
     @Override
     public void initialize() {
-      m_robotDrive.tankDrive(m_speed, m_speed);
       m_robotDrive.resetEncoders();
+      m_robotDrive.tankDrive(m_speed, m_speed);
+      System.out.println("In DriveDistance init");
     }
 
     @Override

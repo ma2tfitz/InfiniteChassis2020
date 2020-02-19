@@ -18,7 +18,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 public class LimelightDistanceCommand extends CommandBase {
   
-  private static final double TARGET_AREA = 0.99;
+  private static final double TARGET_AREA = 1.89;
   private static final double MAX_AREA_ABS_ERROR = 0.005;
 
   private DriveSubsystem m_robotDrive;
@@ -31,35 +31,45 @@ public class LimelightDistanceCommand extends CommandBase {
   }
   @Override
   public void initialize() {
-
+    m_limelight.setOnLed();
   }
 
   @Override
   public void execute() {
-    double leftSpeed = 0.0;
-    double rightSpeed = 0.0;
+    double minValue = 0.008; //0.001
+    double speed = 0.0;
+    double heading = 0.0;
     if (!m_limelight.hasTarget()){
-      leftSpeed = 0.0;
-      rightSpeed = 0.0;
+      speed = 0.0;
+      heading = 0.0;
     } else {
-        double v = (TARGET_AREA - m_limelight.getArea()) * 3.00;
-        if(v > 0){
-          v += 0.001;
-        } else if (v < 0){
-          v -= 0.001;
+        speed = (TARGET_AREA - m_limelight.getArea()) * 4.00;
+        if(speed > 0){
+          speed += minValue;
+        } else if (speed < 0){
+          speed -= minValue;
         }
-        v = MathUtil.clamp(v, -0.60, 0.60);
-        leftSpeed = v;
-        rightSpeed = v;
+        
+        heading = -m_limelight.getX() * 0.04;
+        if (heading > 1){
+          heading -= minValue;
+          speed += 0.1;
+        } else if (heading < -1){
+          heading += minValue;
+          speed += 0.1;
+        }
+        speed = MathUtil.clamp(speed, -0.60, 0.60);
+        heading = MathUtil.clamp(heading, -1, 1);
+        SmartDashboard.putNumber("Heading", heading);
+        SmartDashboard.putNumber("Speed", speed);
     }
-    SmartDashboard.putNumber("Left Speed", leftSpeed);    
-    SmartDashboard.putNumber("Right Speed", rightSpeed);
-    m_robotDrive.tankDrive(leftSpeed, rightSpeed);    
+    m_robotDrive.arcadeDrive(speed, heading);    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_limelight.setOffLed();
   }
 
   // Returns true when the command should end.

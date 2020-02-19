@@ -77,7 +77,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void resetEncoders() {
+    System.out.println("before " + m_frontLeftEncoder.getPosition());
     m_frontLeftEncoder.setPosition(0.0);
+    System.out.println("right after " + m_frontLeftEncoder.getPosition());
     m_frontRightEncoder.setPosition(0.0);
     m_backLeftEncoder.setPosition(0.0);
     m_backRightEncoder.setPosition(0.0);
@@ -86,6 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRightEncoder.getPosition();
     m_backLeftEncoder.getPosition();
     m_backRightEncoder.getPosition();
+
   }
 
   public double getMeanEncoderDistance() {
