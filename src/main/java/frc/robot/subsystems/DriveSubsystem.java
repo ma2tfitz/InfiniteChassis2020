@@ -31,12 +31,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
 
-    // FIX: These are true on chassis?
+    // FIX: Opposite on carrie?
     frontLeftMotor.setInverted(true);
     frontRightMotor.setInverted(false);
     backLeftMotor.setInverted(true);
     backRightMotor.setInverted(false);
-    // ^ FIX: Making sure none of the motors are inverted, change when we figure out WTH is up with the motors lol
 
     frontLeftMotor.setSmartCurrentLimit(80);
     frontRightMotor.setSmartCurrentLimit(80);
@@ -56,8 +55,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
 
-    m_drive.setMaxOutput(Constants.k);
     m_drive.setRightSideInverted(false);
+    m_drive.setMaxOutput(Constants.k);
   }
 
   public void arcadeDrive(double speed, double rotation) {
@@ -77,18 +76,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void resetEncoders() {
-    System.out.println("before " + m_frontLeftEncoder.getPosition());
     m_frontLeftEncoder.setPosition(0.0);
-    System.out.println("right after " + m_frontLeftEncoder.getPosition());
     m_frontRightEncoder.setPosition(0.0);
     m_backLeftEncoder.setPosition(0.0);
     m_backRightEncoder.setPosition(0.0);
-
-    m_frontLeftEncoder.getPosition();
-    m_frontRightEncoder.getPosition();
-    m_backLeftEncoder.getPosition();
-    m_backRightEncoder.getPosition();
-
   }
 
   public double getMeanEncoderDistance() {

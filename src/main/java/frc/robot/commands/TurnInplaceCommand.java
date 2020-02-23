@@ -4,32 +4,44 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class TurnInplaceCommand extends CommandBase {
-    private final DriveSubsystem m_robotDrive;
+    private final DriveSubsystem m_driveSubsystem;
     private final double m_rotation;
     private final double m_speed;
+    private double origin;
+    private double target;
 
-    // rotation should be in degrees
+    // rotation should be magnitude in degrees, positive speed clockwise
     public TurnInplaceCommand(double rotation, double speed, DriveSubsystem drive) {
-	    m_rotation = Math.abs(rotation); // must be _magnitude_ in degrees
-	    m_speed = speed;
-      m_robotDrive = drive;
-      addRequirements(m_robotDrive);
+      m_rotation = Math.abs(rotation);
+      m_speed = speed;
+      m_driveSubsystem = drive;
+      addRequirements(m_driveSubsystem);
     }
 
     @Override
     public void initialize() {
-      m_robotDrive.tankDrive(-m_speed, m_speed);
-      m_robotDrive.resetEncoders();
+	origin = m_driveSubsystem.getLeftEncoderDistance();
+	target = Math.signum(m_speed) * m_rotation + origin;
+    }
+
+    @Override
+    public void execute() {
+      m_driveSubsystem.tankDrive(m_speed, -m_speed);
     }
 
     @Override
     public void end(boolean interrupted) {
-      m_robotDrive.tankDrive(0.0, 0.0);
-      m_robotDrive.resetEncoders();
+      m_driveSubsystem.tankDrive(0.0, 0.0);
     }
 
     @Override
     public boolean isFinished() {
-      return Math.abs(m_robotDrive.getLeftEncoderDistance()) >= m_rotation;
+      double current = m_driveSubsystem.getLeftEncoderDistance();
+      if (m_speed > 0) {
+	  return current >= target;
+      } else {
+	  return current <= target;
+      }
+
     }
 }
