@@ -24,6 +24,7 @@ import frc.robot.commands.LimelightAutoTrackCommand;
 import frc.robot.commands.LimelightDistanceCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.IRSensorSubsystem;
 
 public class RobotContainer {
   public static XboxController driverXBox = new XboxController(1);
@@ -32,6 +33,7 @@ public class RobotContainer {
 
   public static LimelightSubsystem m_limelight = new LimelightSubsystem();
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  public final IRSensorSubsystem m_IRSensorSubsystem = new IRSensorSubsytem();
 
   private static final int A_BUTTON_XBOX = 1;
   private static final int B_BUTTON_XBOX = 2;

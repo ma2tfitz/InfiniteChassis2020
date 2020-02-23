@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.IRSensorSubsytem;
 import frc.robot.RobotContainer;
 import frc.robot.Robot;
 import com.revrobotics.CANSparkMax;
@@ -28,11 +29,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Robot extends TimedRobot {
 
   public RobotContainer m_robotContainer;
-  public DriveSubsystem m_robotDrive;
+  public IRSensorSubsytem m_IRSensorSubsytem;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    m_IRSensorSubsystem = new IRSensorSubsytem();
     // ^ Where we make our RobotContainer/DriveSubsystem
   }
 
@@ -44,6 +46,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Limelight tx", RobotContainer.m_limelight.getX());
     SmartDashboard.putNumber("Limelight ty", RobotContainer.m_limelight.getY());
     SmartDashboard.putNumber("Limelight ta", RobotContainer.m_limelight.getArea());
+
+    SmartDashboard.putBoolean("Intake gotta ball!", RobotContainer.m_IRSensorSubsystem.intakeHasBall());
   }
 
   @Override
