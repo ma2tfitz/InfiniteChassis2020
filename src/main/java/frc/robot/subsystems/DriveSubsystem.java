@@ -31,7 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
 
-    // FIX: Opposite on carrie?
+    // FIX: Opposite on carrie because 3 is really front now.
     frontLeftMotor.setInverted(true);
     frontRightMotor.setInverted(false);
     backLeftMotor.setInverted(true);
