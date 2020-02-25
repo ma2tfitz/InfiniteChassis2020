@@ -16,11 +16,10 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.IRSensorSubsytem;
+import frc.robot.subsystems.IRSensorSubsystem;
 import frc.robot.RobotContainer;
 import frc.robot.Robot;
 import com.revrobotics.CANSparkMax;
@@ -29,12 +28,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Robot extends TimedRobot {
 
   public RobotContainer m_robotContainer;
-  public IRSensorSubsytem m_IRSensorSubsytem;
+  // public IRSensorSubsystem m_IRSensorSubsystem;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    m_IRSensorSubsystem = new IRSensorSubsytem();
+    // m_IRSensorSubsystem = new IRSensorSubsystem();
     // ^ Where we make our RobotContainer/DriveSubsystem
   }
 

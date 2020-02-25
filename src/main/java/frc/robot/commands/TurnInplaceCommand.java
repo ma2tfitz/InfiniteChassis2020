@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class TurnInplaceCommand extends CommandBase {
-    private static final POSITION_PER_REV = 7.0 / 30.0; // depends on PCF
+    private static final double POSITION_PER_REV = 7.0 / 30.0; // depends on PCF
     private final DriveSubsystem m_driveSubsystem;
     private final double m_rotation;
     private final double m_speed;
@@ -13,7 +13,7 @@ public class TurnInplaceCommand extends CommandBase {
 
     // rotation should be signed degrees, positve counter clockwise, speed should be positive
     public TurnInplaceCommand(double rotation, double speed, DriveSubsystem drive) {
-      m_rotation = rotaton * POSITION_PER_REV;
+      m_rotation = rotation * POSITION_PER_REV;
       m_speed = Math.abs(speed);
       m_driveSubsystem = drive;
       addRequirements(m_driveSubsystem);
@@ -39,9 +39,9 @@ public class TurnInplaceCommand extends CommandBase {
     public boolean isFinished() {
       double current = m_driveSubsystem.getLeftEncoderDistance();
       if (m_rotation > 0) {
-	  return current >= target;
+	      return current >= target;
       } else {
-	  return current <= target;
+	      return current <= target;
       }
     }
 }

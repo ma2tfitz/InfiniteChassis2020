@@ -44,7 +44,8 @@ public class LimelightSubsystem extends SubsystemBase {
   // ^ Our epic limelight methods!
 
   public void setOffLed() {
-    limelight.getEntry("ledMode").setNumber(1);
+    // Don't turn off for now
+    limelight.getEntry("ledMode").setNumber(3);
   }
 
   public void setOnLed() {

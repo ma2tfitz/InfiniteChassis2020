@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+// import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -27,13 +27,13 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.IRSensorSubsystem;
 
 public class RobotContainer {
-  public static XboxController driverXBox = new XboxController(1);
-  public static XboxController manipulatorXBox = new XboxController(2);
+  public final XboxController driverXBox = new XboxController(1);
+  public final XboxController manipulatorXBox = new XboxController(2);
   // ^ FIX: Check to make sure manipulatorXBox is on the right port
 
   public static LimelightSubsystem m_limelight = new LimelightSubsystem();
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  public final IRSensorSubsystem m_IRSensorSubsystem = new IRSensorSubsytem();
+  public final IRSensorSubsystem m_IRSensorSubsystem = new IRSensorSubsystem();
 
   private static final int A_BUTTON_XBOX = 1;
   private static final int B_BUTTON_XBOX = 2;
